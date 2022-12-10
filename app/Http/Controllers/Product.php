@@ -13,7 +13,7 @@ class Product extends Controller
      */
     public function index()
     {
-     return view('Product.showProd');
+        return view('Product.showProd');
     }
 
     /**
@@ -34,7 +34,14 @@ class Product extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'price' => 'required',
+            'desc' => 'required',
+        ]);
+
+   
     }
 
     /**
