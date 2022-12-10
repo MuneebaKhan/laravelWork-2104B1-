@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProductModel;
 
 class Product extends Controller
 {
@@ -13,7 +14,11 @@ class Product extends Controller
      */
     public function index()
     {
-        return view('Product.showProd');
+        $Produts = ProductModel::all();
+        echo '<pre>';
+        print_r($Produts->toArray());
+
+        // return view('Product.showProd')->with($data);
     }
 
     /**
@@ -41,7 +46,14 @@ class Product extends Controller
             'desc' => 'required',
         ]);
 
-   
+        $Prod = new ProductModel();
+
+        $Prod->Pname = $request['name'];
+        $Prod->Price = $request['price'];
+        $Prod->Email = $request['email'];
+        $Prod->Description = $request['desc'];
+        $Prod->save();
+        return redirect()->route('products.index');
     }
 
     /**
