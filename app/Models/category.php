@@ -9,5 +9,5 @@ class category extends Model
 {
     use HasFactory;
     protected $table = '_category';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'Cid';
 }

@@ -19,14 +19,11 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="{{route('products.create')}}">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>    
+        <a class="nav-link" href="{{route('category.create')}}">Category</a>
+      </li>      
     </ul>
   </div>  
 </nav>

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\category;
+use App\Models\ProductModel;
 
 class CategoryController extends Controller
 {
-    public $prod = 0;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +15,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $Cat = category::join(
+            'products',
+            'products.id',
+            '=',
+            '_category.ProdId'
+        )->get();
+
+        $data = compact('Cat');
+        return view('Product.showCat')->with($data);
     }
 
     /**
@@ -25,11 +33,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $Prod = category::all();
+        $Prod = ProductModel::all();
 
         $data = compact('Prod');
         return view('Product.Category')->with($data);
-        // $this->prod = category::orderby('Cname', 'asc')->all();
     }
 
     /**
@@ -40,7 +47,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $Cat = new category();
+
+        $Cat->Cname = $request['name'];
+        $Cat->ProdId = $request['Category'];
+
+        $Cat->save();
+        return redirect()
+            ->route('category.index')
+            ->with('status', 'You have successfully inserted!!');
     }
 
     /**
@@ -49,9 +68,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($Cid)
     {
-        //
+        $Cat = category::join(
+            'products',
+            'products.id',
+            '=',
+            '_category.ProdId'
+        )->find($Cid); //1
+        $data = compact('Cat');
+        return view('Product.DetailCat')->with($data);
     }
 
     /**
@@ -60,9 +86,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Cid)
     {
-        //
+        $Cat = category::find($Cid); //1
+        // $data = compact('Cat');
+
+        $Prod = ProductModel::all();
+
+        $data = compact('Prod', 'Cat');
+        return view('Product.CEdit')->with($data);
     }
 
     /**
@@ -72,9 +104,21 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Cid)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $Cat = category::find($Cid);
+
+        $Cat->Cname = $request['name'];
+        $Cat->ProdId = $request['Category'];
+
+        $Cat->save();
+        return redirect()
+            ->route('category.index')
+            ->with('status', 'Updated Successfully!!');
     }
 
     /**
@@ -83,8 +127,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($Cid)
     {
-        //
+        $Prod = category::find($Cid); //2
+        $Prod->delete();
+        return redirect()
+            ->route('category.index')
+            ->with('delete', 'Category Deleted');
     }
 }

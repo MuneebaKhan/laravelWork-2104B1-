@@ -14,10 +14,13 @@ class CreateCategoryTable extends Migration
     public function up()
     {
         Schema::create('_category', function (Blueprint $table) {
-            $table->id();
-            $table->string('Cname',225);
+            $table->id('Cid');
+            $table->string('Cname', 225);
             $table->unsignedBigInteger('ProdId');
-            $table->foreign('ProdId')->references('id')->on('products');
+            $table
+                ->foreign('ProdId')
+                ->references('id')
+                ->on('products');
             $table->timestamps();
         });
     }

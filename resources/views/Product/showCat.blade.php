@@ -7,34 +7,31 @@
         @elseif(session('delete'))
         <script> alert("{{session('delete')}}") </script>
         @endif
-            <a class="btn btn-secondary mb-3" href="{{route('products.create')}}"><i class="fa fa-list-alt"></i> Add Products</a>
+            <a class="btn btn-secondary mb-3" href="{{route('category.create')}}"><i class="fa fa-list-alt"></i> Add Category</a>
 
         <table class = "table table-bordered">
 
 
             <tr>
+                <th>Category Name</th>
                 <th>Product Name</th>
-                <th>Price </th>
-                <th>Email</th>
-                <th>Description</th>
                 <th>Created At</th>
                 <th>Updated At</th>
-                <th>Images</th>
+                <th>Image</th>
             </tr>
-            @foreach($Prod as $key)
+            @foreach($Cat as $key)
                  <tr>
+                        <td>{{$key->Cname}}</td>
                         <td>{{$key->Pname}}</td>
-                        <td>{{$key->Price}}</td>
-                        <td>{{$key->Email}}</td>
-                        <td>{{$key->Description}}</td>
                         <td>{{$key->created_at}}</td>
                         <td>{{$key->updated_at}}</td>
                         <td><img src="{{$key->ProdImg}}" alt="prodImages" width = "100" height="80"></td>
-                        <td><a href="{{route('products.show',$key->id)}}" class = "btn btn-success">Detail</a> </td>
-                        <td> <a href="{{route('products.edit',$key->id)}}" class = "btn btn-primary">Edit</a> </td>
+
+                        <td><a href="{{route('category.show',$key->Cid)}}" class = "btn btn-success">Detail</a> </td>
+                        <td> <a href="{{route('category.edit',$key->Cid)}}" class = "btn btn-primary">Edit</a> </td>
                         <td> 
 
-                        <form action="{{route('products.destroy',$key->id)}}" method = "post">
+                        <form action="{{route('category.destroy',$key->Cid)}}" method = "post">
                         
                             @csrf
                             @method('DELETE')

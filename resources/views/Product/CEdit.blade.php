@@ -1,11 +1,11 @@
 @include('Layout.header')
 
 <div class="container"> <br>
-  <h3>Insert Data In DataBase</h3> <br>
+  <h3>Edit Category Data In DataBase</h3> <br>
 
 
 
-<form action="{{route('category.store')}}" method = "post" enctype="multipart/form-data">
+<form action="{{route('category.update',$Cat->Cid)}}" method = "post" enctype="multipart/form-data">
 
   @php
     print_r($errors->all());
@@ -13,13 +13,14 @@
   @endphp
     @csrf
     <div class = "row">
+        @method('put')
 
     
       <div class = "col-sm-12 col-lg-6">
 
         <div class="form-group">
           <label for="name">Category Name:</label>
-          <input type="text" class="form-control" id="name" placeholder="Enter Category Name" name="name">
+        <input type="text" class="form-control" id="name" placeholder="Enter Category Name" name="name" value = "{{$Cat->Cname}}">
           <span class = 'text-danger'>
               @error('name')
                 {{$message}}
@@ -34,9 +35,16 @@
                         <option value="">--Select--</option>
                             <!-- Get dropdown data code -->
                              @foreach($Prod as $key)
-                                  <option value="{{$key->id}}">{{$key->Pname}}</option>
+                                  <option value="{{$key->id}}"  
+                                    @if($Cat->ProdId == $key->id)
+                                    {{"selected";}}
+                                    @endif
+                                    >{{$key->Pname}}</option>
 
                               @endforeach
+
+
+                          
                             
                         </select>
         </div>
