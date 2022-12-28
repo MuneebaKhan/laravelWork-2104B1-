@@ -45,6 +45,7 @@ class Product extends Controller
             'email' => 'required|email',
             'price' => 'required',
             'desc' => 'required',
+            'img' => 'required|image|mimes:jpg,png,jpeg'
         ]);
 
         $Prod = new ProductModel();
@@ -53,6 +54,16 @@ class Product extends Controller
         $Prod->Price = $request['price'];
         $Prod->Email = $request['email'];
         $Prod->Description = $request['desc'];
+        if($request->hasfile('img')){
+           $files =  $request->file('img');
+
+           $fileName = $files->getClientOriginalName();
+
+           $folder = "assets/images/";
+           $dbfileloc = $folder .$fileName; //assets/images/img1.png
+           $files->move($folder,$dbfileloc);
+           $Prod->ProdImg = $dbfileloc; 
+        }
         $Prod->save();
         return redirect()->route('products.index')->with('status','You have successfully created!!');
     }
@@ -65,7 +76,7 @@ class Product extends Controller
      */
     public function show($id)
     {
-        $Prods = ProductModel::find($id);
+        $Prods = ProductModel::find($id); //1
         $data = compact('Prods');
         return view('Product.DetailProd')->with($data);
     }
@@ -76,7 +87,7 @@ class Product extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)//2//3
     {
         $Prods = ProductModel::find($id);
          $data = compact('Prods');

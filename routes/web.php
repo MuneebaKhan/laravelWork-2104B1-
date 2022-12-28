@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Employee;
 
 
@@ -40,6 +41,8 @@ Route::get('/Contact/{name?}', function ($name = null) {
 Route::get('/show', 'Employee@Show');
 
 Route::resource('/products', 'Product');
+
+Route::resource('/category', 'CategoryController');
 
 Route::get('/xyz', [Employee::class,'ShowEmp']);
 
